@@ -1,6 +1,6 @@
 package felipe.pereira.goliathbank.domain.transactions.model
 
-class Transactions(
+class Transaction(
   val code: String,
   val amount: String,
   val currency: String

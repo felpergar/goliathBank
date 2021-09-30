@@ -3,11 +3,11 @@ package felipe.pereira.goliathbank.domain.transactions.usecase
 import felipe.pereira.goliathbank.data.common.ResultWrapper
 import felipe.pereira.goliathbank.domain.UseCaseAsync
 import felipe.pereira.goliathbank.domain.transactions.TransactionsRepository
-import felipe.pereira.goliathbank.domain.transactions.model.Transactions
+import felipe.pereira.goliathbank.domain.transactions.model.Transaction
 
 class GetTransactions(
   val repository: TransactionsRepository
-): UseCaseAsync<Unit, List<Transactions>> {
+): UseCaseAsync<Unit, List<Transaction>> {
 
-  override suspend fun buildAsync(params: Unit): ResultWrapper<List<Transactions>> = repository.getTransactions()
+  override suspend fun buildAsync(params: Unit): ResultWrapper<List<Transaction>> = repository.getTransactions()
 }
