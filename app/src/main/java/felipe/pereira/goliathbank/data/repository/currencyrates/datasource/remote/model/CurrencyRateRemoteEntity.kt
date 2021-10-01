@@ -7,10 +7,10 @@ import felipe.pereira.goliathbank.domain.currencyrates.model.CurrencyRate
 class CurrencyRateRemoteEntity(
   @SerializedName(FROM) val currencyFrom: String?,
   @SerializedName(TO) val currencyTo: String?,
-  @SerializedName(RATE) val rate: String?
+  @SerializedName(RATE) val rate: Float?
 ) {
 
-  fun isValid() = !currencyFrom.isNullOrBlank() && !currencyTo.isNullOrBlank() && !rate.isNullOrBlank()
+  fun isValid() = !currencyFrom.isNullOrBlank() && !currencyTo.isNullOrBlank() && rate != null
 }
 
 private fun CurrencyRateRemoteEntity.transformToDomain() = CurrencyRate(currencyFrom!!, currencyTo!!, rate!!)

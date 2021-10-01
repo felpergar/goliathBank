@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import felipe.pereira.goliathbank.data.common.TransformToDomainException
 import felipe.pereira.goliathbank.domain.transactions.model.Transaction
 
-class TransactionsRemoteEntity(
+class TransactionRemoteEntity(
   @SerializedName(SKU) val code: String?,
   @SerializedName(AMOUNT) val amount: String?,
   @SerializedName(CURRENCY) val currency: String?
@@ -13,9 +13,9 @@ class TransactionsRemoteEntity(
   fun isValid() = !code.isNullOrBlank() && !amount.isNullOrBlank() && !currency.isNullOrBlank()
 }
 
-private fun TransactionsRemoteEntity.transformToDomain() = Transaction(code!!, amount!!, currency!!)
+private fun TransactionRemoteEntity.transformToDomain() = Transaction(code!!, amount!!, currency!!)
 
-fun List<TransactionsRemoteEntity>.transformToDomain() =
+fun List<TransactionRemoteEntity>.transformToDomain() =
   map { if (it.isValid()) it.transformToDomain() else throw TransformToDomainException(this::javaClass.name) }
 
 private const val SKU = "sku"

@@ -1,12 +1,15 @@
 package felipe.pereira.goliathbank.data.repository.currencyrates.datasource
 
 import felipe.pereira.goliathbank.data.common.ResultWrapper
+import felipe.pereira.goliathbank.data.common.getSafeResult
+import felipe.pereira.goliathbank.data.repository.currencyrates.datasource.local.CurrencyRatesLocalDataSource
 import felipe.pereira.goliathbank.data.repository.currencyrates.datasource.remote.CurrencyRatesRemoteDataSource
 import felipe.pereira.goliathbank.domain.currencyrates.CurrencyRatesRepository
 import felipe.pereira.goliathbank.domain.currencyrates.model.CurrencyRate
 
 class CurrencyRatesDataRepository(
-  private val remoteDataSource: CurrencyRatesRemoteDataSource
+  private val remoteDataSource: CurrencyRatesRemoteDataSource,
+  private val localDataSource: CurrencyRatesLocalDataSource
 ) : CurrencyRatesRepository {
 
   override suspend fun getCurrencyRates(): ResultWrapper<List<CurrencyRate>> {
@@ -27,10 +30,12 @@ class CurrencyRatesDataRepository(
                 newRates.add(CurrencyRate(rateWithNewCurrency.currencyFrom, EUR, eurRate.rate * rateWithNewCurrency.rate))
             }
           }
-
           allEurRates.addAll(newRates)
-        } //I suppossed all types of rates can be calculated ?!
-        return result
+        } //I suppossed all types of rates can be calculated. I could put a chrono if `while`condicion never success to stop loop after few seconds
+       return when(val localDataBaseResult = localDataSource.saveRates(allEurRates)) {
+            is ResultWrapper.Success -> ResultWrapper.Success(allEurRates)
+            is ResultWrapper.Error -> localDataBaseResult
+        }
       }
       is ResultWrapper.Error -> {
         return result
