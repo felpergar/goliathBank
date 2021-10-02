@@ -3,10 +3,10 @@ package felipe.pereira.goliathbank.mobile.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import felipe.pereira.goliathbank.R
 import felipe.pereira.goliathbank.databinding.ActivityMainBinding
 import felipe.pereira.goliathbank.mobile.main.adapter.TransactionAdapter
-import felipe.pereira.goliathbank.mobile.main.model.TransactionViewEntity
+import felipe.pereira.goliathbank.mobile.main.model.TransactionCodeViewEntity
+import felipe.pereira.goliathbank.mobile.transaction.TransactionActivity
 import org.koin.java.KoinJavaComponent
 
 class MainActivity : AppCompatActivity(), MainPresenter.MainView {
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView {
     MainPresenter::class.java
   )
   private lateinit var binding: ActivityMainBinding
-  private val transactionAdapter by lazy { TransactionAdapter() }
+  private val transactionAdapter by lazy { TransactionAdapter(presenter::onTransactionClicked) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -34,8 +34,12 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView {
     }
   }
 
-  override fun showTransactions(transactions: List<TransactionViewEntity>) {
+  override fun showTransactions(transactions: List<TransactionCodeViewEntity>) {
     transactionAdapter.setItems(transactions)
+  }
+
+  override fun navigateToTransactionScreen(code: String) {
+    startActivity(TransactionActivity.newCallingIntent(this, code))
   }
 
   override fun showLoading() {
@@ -43,5 +47,6 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView {
   }
 
   override fun hideLoading() {
+
   }
 }

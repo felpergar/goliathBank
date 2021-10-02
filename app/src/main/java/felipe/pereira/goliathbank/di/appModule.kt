@@ -11,9 +11,12 @@ import felipe.pereira.goliathbank.data.repository.transactions.datasource.local.
 import felipe.pereira.goliathbank.data.repository.transactions.datasource.remote.TransactionsRemoteDataSource
 import felipe.pereira.goliathbank.domain.currencyrates.CurrencyRatesRepository
 import felipe.pereira.goliathbank.domain.currencyrates.usecase.GetCurrencyRates
+import felipe.pereira.goliathbank.domain.currencyrates.usecase.GetEURCurrencyRates
 import felipe.pereira.goliathbank.domain.transactions.TransactionsRepository
 import felipe.pereira.goliathbank.domain.transactions.usecase.GetTransactions
+import felipe.pereira.goliathbank.domain.transactions.usecase.GetTransactionsByCode
 import felipe.pereira.goliathbank.mobile.main.MainPresenter
+import felipe.pereira.goliathbank.mobile.transaction.TransactionPresenter
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -31,5 +34,9 @@ val appModule = module {
 
   factory { GetCurrencyRates(get()) }
   factory { GetTransactions(get()) }
+  factory { GetTransactionsByCode(get()) }
+  factory { GetEURCurrencyRates(get()) }
+
+  factory { params -> TransactionPresenter(params.get(), get(), get()) }
   factory { MainPresenter(get(), get()) }
 }

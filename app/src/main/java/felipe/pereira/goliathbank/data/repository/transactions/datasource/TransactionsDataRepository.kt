@@ -6,6 +6,7 @@ import felipe.pereira.goliathbank.data.repository.transactions.datasource.local.
 import felipe.pereira.goliathbank.data.repository.transactions.datasource.remote.TransactionsRemoteDataSource
 import felipe.pereira.goliathbank.domain.transactions.TransactionsRepository
 import felipe.pereira.goliathbank.domain.transactions.model.Transaction
+import felipe.pereira.goliathbank.domain.transactions.usecase.GetTransactionsByCodeParams
 
 class TransactionsDataRepository(
   private val remoteDataSource: TransactionsRemoteDataSource,
@@ -21,4 +22,7 @@ class TransactionsDataRepository(
         }
       is ResultWrapper.Error -> result
     }
+
+  override suspend fun getTransactionsByCode(params: GetTransactionsByCodeParams): ResultWrapper<List<Transaction>> =
+    localDataSource.getTransactionByProduct(params.code)
 }

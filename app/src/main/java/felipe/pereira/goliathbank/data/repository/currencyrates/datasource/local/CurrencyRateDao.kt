@@ -10,8 +10,8 @@ import felipe.pereira.goliathbank.data.repository.currencyrates.datasource.local
 interface CurrencyRateDao {
 
   @Query("SELECT * FROM rate")
-  suspend fun getRates(): List<CurrencyRateLocalEntity>
+  suspend fun getCurrencyRates(): List<CurrencyRateLocalEntity>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  suspend fun saveRates(rates: List<CurrencyRateLocalEntity>): List<Long>
+  suspend fun saveCurrencyRates(rates: List<CurrencyRateLocalEntity>): List<Long>
 }

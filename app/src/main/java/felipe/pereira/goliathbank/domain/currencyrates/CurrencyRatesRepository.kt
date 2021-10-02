@@ -6,4 +6,6 @@ import felipe.pereira.goliathbank.domain.currencyrates.model.CurrencyRate
 interface CurrencyRatesRepository {
 
   suspend fun getCurrencyRates(): ResultWrapper<List<CurrencyRate>>
+
+  suspend fun getEurCurrencyRates(): ResultWrapper<List<CurrencyRate>>
 }

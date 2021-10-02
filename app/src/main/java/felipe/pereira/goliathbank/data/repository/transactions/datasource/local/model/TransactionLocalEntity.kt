@@ -15,3 +15,7 @@ class TransactionLocalEntity (
 private fun Transaction.transformToLocalEntity() = TransactionLocalEntity(System.currentTimeMillis().toString(), code, amount, currency)
 
 fun List<Transaction>.transformToLocalEntity() = map { it.transformToLocalEntity() }
+
+private fun TransactionLocalEntity.transformToDomain() = Transaction(code, amount, currency)
+
+fun List<TransactionLocalEntity>.transformToDomain() = map { it.transformToDomain() }

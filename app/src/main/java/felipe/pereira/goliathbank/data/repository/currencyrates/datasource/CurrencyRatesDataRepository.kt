@@ -1,7 +1,6 @@
 package felipe.pereira.goliathbank.data.repository.currencyrates.datasource
 
 import felipe.pereira.goliathbank.data.common.ResultWrapper
-import felipe.pereira.goliathbank.data.common.getSafeResult
 import felipe.pereira.goliathbank.data.repository.currencyrates.datasource.local.CurrencyRatesLocalDataSource
 import felipe.pereira.goliathbank.data.repository.currencyrates.datasource.remote.CurrencyRatesRemoteDataSource
 import felipe.pereira.goliathbank.domain.currencyrates.CurrencyRatesRepository
@@ -32,7 +31,7 @@ class CurrencyRatesDataRepository(
           }
           allEurRates.addAll(newRates)
         } //I suppossed all types of rates can be calculated. I could put a chrono if `while`condicion never success to stop loop after few seconds
-       return when(val localDataBaseResult = localDataSource.saveRates(allEurRates)) {
+       return when(val localDataBaseResult = localDataSource.saveCurrencyRates(allEurRates.filter { it.currencyFrom == EUR })) {
             is ResultWrapper.Success -> ResultWrapper.Success(allEurRates)
             is ResultWrapper.Error -> localDataBaseResult
         }
@@ -42,6 +41,8 @@ class CurrencyRatesDataRepository(
       }
     }
   }
+
+  override suspend fun getEurCurrencyRates(): ResultWrapper<List<CurrencyRate>> = localDataSource.getCurrencyRates()
 }
 
 private const val EUR = "EUR"

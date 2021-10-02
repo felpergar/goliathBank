@@ -9,7 +9,7 @@ class CurrencyRatesLocalDataSource(
   private val dao: CurrencyRateDao
 ) {
 
-  suspend fun getRates() = getSafeResult { dao.getRates().transformToDomain() }
+  suspend fun getCurrencyRates() = getSafeResult { dao.getCurrencyRates().transformToDomain() }
 
-  suspend fun saveRates(rates: List<CurrencyRate>) = getSafeResult { dao.saveRates(rates.transformToLocalEntity()) }
+  suspend fun saveCurrencyRates(rates: List<CurrencyRate>) = getSafeResult { dao.saveCurrencyRates(rates.transformToLocalEntity()) }
 }
