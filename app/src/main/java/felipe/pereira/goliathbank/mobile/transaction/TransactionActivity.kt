@@ -3,9 +3,11 @@ package felipe.pereira.goliathbank.mobile.transaction
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import felipe.pereira.goliathbank.R
 import felipe.pereira.goliathbank.databinding.ActivityTransactionBinding
 import felipe.pereira.goliathbank.mobile.transaction.model.TransactionViewEntity
 import felipe.pereira.goliathbank.mobile.transaction.adapter.TransactionAmountAdapter
@@ -42,19 +44,19 @@ class TransactionActivity : AppCompatActivity(), TransactionPresenter.Transactio
   }
 
   override fun showAllAmount(amount: String) {
-    binding.allAmount.text = amount
+    binding.allAmount.text = "$amount €"
   }
 
   override fun showError() {
-    Toast.makeText(this, "text", Toast.LENGTH_SHORT).show()
+    Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show()
   }
 
   override fun showLoading() {
-    TODO("Not yet implemented")
+    binding.loader.visibility = View.VISIBLE
   }
 
   override fun hideLoading() {
-    TODO("Not yet implemented")
+    binding.loader.visibility = View.GONE
   }
 
   companion object {

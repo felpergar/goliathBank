@@ -2,8 +2,11 @@ package felipe.pereira.goliathbank.mobile.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import felipe.pereira.goliathbank.R
 import felipe.pereira.goliathbank.databinding.ActivityMainBinding
 import felipe.pereira.goliathbank.mobile.main.adapter.TransactionAdapter
 import felipe.pereira.goliathbank.mobile.main.model.TransactionCodeViewEntity
@@ -44,15 +47,14 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView {
   }
 
   override fun showError() {
-    Toast.makeText(this, "text", Toast.LENGTH_SHORT).show()
+    Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show()
   }
 
-
   override fun showLoading() {
-
+    binding.loader.visibility = VISIBLE
   }
 
   override fun hideLoading() {
-
+    binding.loader.visibility = GONE
   }
 }

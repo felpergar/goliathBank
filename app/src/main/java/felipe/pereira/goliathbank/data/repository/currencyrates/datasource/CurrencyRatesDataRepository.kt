@@ -31,7 +31,7 @@ class CurrencyRatesDataRepository(
           }
           allEurRates.addAll(newRates)
         } //I suppossed all types of rates can be calculated. I could put a chrono if `while`condicion never success to stop loop after few seconds
-       return when(val localDataBaseResult = localDataSource.saveCurrencyRates(allEurRates.filterNot { it.currencyFrom == EUR })) {
+       return when(val localDataBaseResult = localDataSource.saveCurrencyRates(allEurRates)) {
             is ResultWrapper.Success -> ResultWrapper.Success(allEurRates)
             is ResultWrapper.Error -> localDataBaseResult
         }

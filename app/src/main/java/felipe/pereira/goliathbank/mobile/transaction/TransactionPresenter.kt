@@ -1,6 +1,5 @@
 package felipe.pereira.goliathbank.mobile.transaction
 
-import android.widget.Toast
 import felipe.pereira.goliathbank.data.common.ResultWrapper
 import felipe.pereira.goliathbank.domain.currencyrates.usecase.GetEURCurrencyRates
 import felipe.pereira.goliathbank.domain.transactions.model.Transaction
@@ -12,6 +11,9 @@ import felipe.pereira.goliathbank.mobile.transaction.model.transformToTransactio
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
+import java.math.BigDecimal.ROUND_DOWN
+import java.math.RoundingMode
 
 class TransactionPresenter(
   private val code: String,
@@ -21,9 +23,8 @@ class TransactionPresenter(
 
   override fun onViewAttached() {
     getView().initRecyclerView()
-    launch {
-      getTransactions()
-    }
+    getView().showLoading()
+    launch { getTransactions() }
   }
 
   private suspend fun getTransactions() {
@@ -43,19 +44,21 @@ class TransactionPresenter(
     when (val result = getEURCurrencyRates.buildAsync(Unit)) {
       is ResultWrapper.Success -> {
         val currencyRates = result.data
-        var amount = 0F
+        var amount = 0.0
         transactions.forEach { transaction ->
           val currencyRate = currencyRates.find { it.currencyFrom == transaction.currency }
-          if (currencyRate != null)
-            amount += currencyRate.rate * transaction.amount.toFloat()
+          if (currencyRate != null) {
+            val newAmount = (currencyRate.rate * transaction.amount.toFloat()).toDouble()
+            amount += BigDecimal(newAmount).setScale(2, RoundingMode.DOWN).toDouble()
+          }
         }
         withContext(Main) { getView().showAllAmount(amount.toString()) }
-
       }
       is ResultWrapper.Error -> {
         withContext(Main) { getView().showError() }
       }
     }
+    withContext(Main) { getView().hideLoading() }
   }
 
   interface TransactionView : View {

@@ -1,6 +1,5 @@
 package felipe.pereira.goliathbank.mobile.main
 
-import android.widget.Toast
 import felipe.pereira.goliathbank.data.common.ResultWrapper
 import felipe.pereira.goliathbank.domain.currencyrates.usecase.GetCurrencyRates
 import felipe.pereira.goliathbank.domain.transactions.usecase.GetTransactions
@@ -20,7 +19,7 @@ class MainPresenter(
     getView().showLoading()
     launch {
       getCurrencyRates()
-      getTrans()
+      getTransactions()
     }
   }
 
@@ -30,25 +29,22 @@ class MainPresenter(
         println("Result ${result.data}")
       }
       is ResultWrapper.Error -> {
-        //TODO show error
-        println("Result ${result.throwable.message}")
+        withContext(Main) { getView().showError() }
       }
     }
-    withContext(Main) { getView().hideLoading() }
   }
 
-  private suspend fun getTrans() {
+  private suspend fun getTransactions() {
     when (val result = getTransactions.buildAsync(Unit)) {
       is ResultWrapper.Success -> {
-        val result = result.data.groupBy { it.code }
-
-        val transactions = result.map { TransactionCodeViewEntity(it.key) }
+        val transactions = result.data.groupBy { it.code }.map { TransactionCodeViewEntity(it.key) }
         withContext(Main) { getView().showTransactions(transactions) }
       }
       is ResultWrapper.Error -> {
-        println("Result ${result.throwable.message}")
+        withContext(Main) { getView().showError() }
       }
     }
+    withContext(Main) { getView().hideLoading() }
   }
 
   fun onTransactionClicked(code: String) {
