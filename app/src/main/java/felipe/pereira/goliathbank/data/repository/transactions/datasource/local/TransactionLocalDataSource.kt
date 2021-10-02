@@ -9,8 +9,10 @@ class TransactionLocalDataSource(
   private val dao: TransactionDao
 ) {
 
-  suspend fun saveTransactions(transactions: List<Transaction>) = getSafeResult { dao.saveTransactions(transactions.transformToLocalEntity()) }
-
+  suspend fun saveTransactions(transactions: List<Transaction>) = getSafeResult {
+    dao.deleteTransactions()
+    dao.saveTransactions(transactions.transformToLocalEntity())
+  }
 
   suspend fun getTransactionByProduct(code: String) = getSafeResult { dao.getTransactionsByCode(code).transformToDomain() }
 }

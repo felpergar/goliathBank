@@ -14,4 +14,6 @@ interface TransactionDao {
 
   @Query("SELECT * FROM `transaction` where code = :code")
   fun getTransactionsByCode(code: String): List<TransactionLocalEntity>
-}
+
+  @Query("DELETE FROM `transaction`")
+  fun deleteTransactions()}
