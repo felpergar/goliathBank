@@ -3,15 +3,12 @@ package felipe.pereira.goliathbank.mobile.transaction
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import felipe.pereira.goliathbank.R
 import felipe.pereira.goliathbank.databinding.ActivityTransactionBinding
 import felipe.pereira.goliathbank.mobile.transaction.model.TransactionViewEntity
-import felipe.pereira.goliathbank.mobile.transaction.adapter.TransactionQuantityAdapter
+import felipe.pereira.goliathbank.mobile.transaction.adapter.TransactionAmountAdapter
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent
 
@@ -21,7 +18,7 @@ class TransactionActivity : AppCompatActivity(), TransactionPresenter.Transactio
   private val code by lazy { intent?.getStringExtra(CODE) ?: "" }
 
   private val presenter: TransactionPresenter by KoinJavaComponent.inject(TransactionPresenter::class.java) { parametersOf(code) }
-  private val transactionAdapter by lazy { TransactionQuantityAdapter() }
+  private val transactionAdapter by lazy { TransactionAmountAdapter() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -42,6 +39,14 @@ class TransactionActivity : AppCompatActivity(), TransactionPresenter.Transactio
 
   override fun showTransactions(transactions: List<TransactionViewEntity>) {
     transactionAdapter.setItems(transactions)
+  }
+
+  override fun showAllAmount(amount: String) {
+    binding.allAmount.text = amount
+  }
+
+  override fun showError() {
+    Toast.makeText(this, "text", Toast.LENGTH_SHORT).show()
   }
 
   override fun showLoading() {

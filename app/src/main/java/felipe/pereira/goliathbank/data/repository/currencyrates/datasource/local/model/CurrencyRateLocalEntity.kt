@@ -6,15 +6,14 @@ import felipe.pereira.goliathbank.domain.currencyrates.model.CurrencyRate
 
 @Entity(tableName = "rate")
 class CurrencyRateLocalEntity(
-  @PrimaryKey val id: String,
-  val currencyFrom: String,
+  @PrimaryKey val currencyFrom: String,
   val currencyTo: String,
   val rate: Float
 )
 
 private fun CurrencyRateLocalEntity.transformToDomain() = CurrencyRate(currencyFrom, currencyTo, rate)
 
-private fun CurrencyRate.transformToLocalEntity() = CurrencyRateLocalEntity(System.currentTimeMillis().toString(), currencyFrom, currencyTo, rate)
+private fun CurrencyRate.transformToLocalEntity() = CurrencyRateLocalEntity(currencyFrom, currencyTo, rate)
 
 fun List<CurrencyRateLocalEntity>.transformToDomain() = map { it.transformToDomain() }
 

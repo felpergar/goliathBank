@@ -8,6 +8,6 @@ class TransactionViewEntity(
   val currency: String
 )
 
-private fun Transaction.transformToTransactionQuantityUI() = TransactionViewEntity(code, amount, code)
+private fun Transaction.transformToTransactionQuantityUI() = TransactionViewEntity(code, amount, currency)
 
 fun List<Transaction>.transformToTransactionQuantityUI() = map { it.transformToTransactionQuantityUI() }

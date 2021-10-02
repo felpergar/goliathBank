@@ -1,5 +1,6 @@
 package felipe.pereira.goliathbank.mobile.main
 
+import android.widget.Toast
 import felipe.pereira.goliathbank.data.common.ResultWrapper
 import felipe.pereira.goliathbank.domain.currencyrates.usecase.GetCurrencyRates
 import felipe.pereira.goliathbank.domain.transactions.usecase.GetTransactions
@@ -58,5 +59,6 @@ class MainPresenter(
     fun initRecyclerView()
     fun showTransactions(transactions: List<TransactionCodeViewEntity>)
     fun navigateToTransactionScreen(code: String)
+    fun showError()
   }
 }

@@ -11,5 +11,8 @@ class CurrencyRatesLocalDataSource(
 
   suspend fun getCurrencyRates() = getSafeResult { dao.getCurrencyRates().transformToDomain() }
 
-  suspend fun saveCurrencyRates(rates: List<CurrencyRate>) = getSafeResult { dao.saveCurrencyRates(rates.transformToLocalEntity()) }
+  suspend fun saveCurrencyRates(rates: List<CurrencyRate>) = getSafeResult {
+//    dao.deleteDataBase()
+    dao.saveCurrencyRates(rates.transformToLocalEntity())
+  }
 }

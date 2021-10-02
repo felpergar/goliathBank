@@ -2,6 +2,7 @@ package felipe.pereira.goliathbank.mobile.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import felipe.pereira.goliathbank.databinding.ActivityMainBinding
 import felipe.pereira.goliathbank.mobile.main.adapter.TransactionAdapter
@@ -41,6 +42,11 @@ class MainActivity : AppCompatActivity(), MainPresenter.MainView {
   override fun navigateToTransactionScreen(code: String) {
     startActivity(TransactionActivity.newCallingIntent(this, code))
   }
+
+  override fun showError() {
+    Toast.makeText(this, "text", Toast.LENGTH_SHORT).show()
+  }
+
 
   override fun showLoading() {
 

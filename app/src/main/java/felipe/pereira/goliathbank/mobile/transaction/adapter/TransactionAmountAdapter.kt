@@ -8,7 +8,7 @@ import felipe.pereira.goliathbank.R
 import felipe.pereira.goliathbank.databinding.AdapterTransactionQuantityBinding
 import felipe.pereira.goliathbank.mobile.transaction.model.TransactionViewEntity
 
-class TransactionQuantityAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TransactionAmountAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
   var items: ArrayList<TransactionViewEntity> = arrayListOf()
 
@@ -30,7 +30,9 @@ class TransactionQuantityAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
   inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(item: TransactionViewEntity) {
       with(AdapterTransactionQuantityBinding.bind(itemView)) {
-//        code.text = item.code
+        code.text = item.code
+        quantity.text = item.amount
+        currency.text = item.currency
       }
     }
   }

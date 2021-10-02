@@ -14,4 +14,7 @@ interface CurrencyRateDao {
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun saveCurrencyRates(rates: List<CurrencyRateLocalEntity>): List<Long>
+
+  @Query("DELETE FROM rate")
+  suspend fun deleteDataBase()
 }
